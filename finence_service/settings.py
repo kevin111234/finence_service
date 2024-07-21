@@ -44,6 +44,15 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    
+    # custom apps
+    'a_background',
+    'a_exchange_rate',
+    'a_stock_analyze',
+    'a_writing_ai',
+
+    # user management
+    'user',
 ]
 
 MIDDLEWARE = [
