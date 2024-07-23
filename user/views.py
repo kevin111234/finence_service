@@ -32,6 +32,7 @@ def login(request):
         form = CustomAuthenticationForm()
     return render(request, 'user/login.html', {'form': form})
 
+@login_required
 def logout(request):
     logout(request)
     return redirect('/')
