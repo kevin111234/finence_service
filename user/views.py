@@ -26,6 +26,8 @@ def login(request):
                 return redirect('user:profile')
             else:
                 form.add_error(None, "Invalid username or password")
+        else:
+            form.add_error(None, "Invalid username or password")
     else:
         form = CustomAuthenticationForm()
     return render(request, 'user/login.html', {'form': form})
