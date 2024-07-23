@@ -1,18 +1,22 @@
 {% extends "base.html" %}
 
-{% block title %}Finance Service 메인 화면{% endblock %}
+{% block title %}MarketVision 메인 화면{% endblock %}
 
 {% block content %}
     <div class="container mt-5">
         <h1 class="text-center">MarketVision</h1>
-        <p class="text-center">##님, 환영합니다!</p>
+        {% if user.is_authenticated %}
+            <p class="text-center">{{ user.first_name }}님, 환영합니다!</p>
+        {% else %}
+            <p class="text-center">다양한 기능을 사용하려면 로그인해주세요.</p>
+        {% endif %}
 
         <div class="row mt-5">
             <!-- Button 1 -->
             <div class="col-md-4 text-center">
-                <h3>환율 데이터 분석</h3>
-                <p>원/달러 환율과 Dollar Index 정보를 분석합니다.</p>
-                <a href="#" class="btn btn-primary btn-lg">환율분석 확인하기</a>
+                <h3>코인정보 데이터 분석</h3>
+                <p>코인의 모멘텀 데이터를 분석합니다.</p>
+                <a href="#" class="btn btn-primary btn-lg">주가분석 확인하기</a>
             </div>
             <!-- Button 2 -->
             <div class="col-md-4 text-center">
@@ -20,7 +24,15 @@
                 <p>각 기업의 모멘텀 데이터를 분석합니다.</p>
                 <a href="#" class="btn btn-primary btn-lg">주가분석 확인하기</a>
             </div>
-            <!-- Button 3 -->
+        </div>
+        <div class="row mt-5">
+            <!-- Button 3-->
+            <div class="col-md-4 text-center">
+                <h3>환율 데이터 분석</h3>
+                <p>원/달러 환율과 Dollar Index 정보를 분석합니다.</p>
+                <a href="#" class="btn btn-primary btn-lg">환율분석 확인하기</a>
+            </div>
+            <!-- Button 4 -->
             <div class="col-md-4 text-center">
                 <h3>Ai 생성형 글쓰기</h3>
                 <p>블로그 업로드용 글을 자동으로 생성해줍니다.</p>

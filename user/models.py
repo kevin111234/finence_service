@@ -3,7 +3,6 @@ from django.db import models
 
 class CustomUser(AbstractUser):
     email = models.EmailField(unique=True)
-    date_of_birth = models.DateField(null=True, blank=True)
     GENDER_CHOICES = [
         ('M', 'Male'),
         ('F', 'Female'),

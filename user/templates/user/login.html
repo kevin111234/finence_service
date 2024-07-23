@@ -1,14 +1,35 @@
 {% extends "base.html" %}
+{% load custom_tags %}
 
-{% block title %}Finance Service 로그인{% endblock %}
+{% block title %}MarketVision 로그인{% endblock %}
 
 {% block content %}
-<body>
-    <h2>로그인</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">로그인</button>
-    </form>
-</body>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2 class="my-4 text-center">로그인</h2>
+        {% if messages %}
+            <ul>
+                {% for message in messages %}
+                    <li>{{ message }}</li>
+                {% endfor %}
+            </ul>
+        {% endif %}
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group">
+                {% for field in form %}
+                <div class="form-group">
+                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
+                    {{ field|add_class:"form-control" }}
+                </div>
+                {% endfor %}
+            </div>
+            <button class="btn btn-primary m-2" type="submit">로그인</button>
+        </form>
+    </div>
+</div>
+<div class="card-footer text-center">
+    <p>계정이 없으신가요? <a href="{% url 'user:signup' %}">여기</a>서 회원가입하세요</p>
+    <p><a href="{% url 'home' %}">메인화면으로 돌아가기</a></p>
+</div>
 {% endblock %}

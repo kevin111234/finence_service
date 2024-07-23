@@ -1,5 +1,5 @@
 from django.shortcuts import render, redirect
-from django.contrib.auth import login, authenticate, logout
+from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
 from .forms import CustomUserCreationForm, CustomAuthenticationForm
 from django.contrib.auth.decorators import login_required
 
@@ -8,7 +8,7 @@ def signup(request):
         form = CustomUserCreationForm(request.POST)
         if form.is_valid():
             user = form.save()
-            login(request, user)
+            auth_login(request, user)
             return redirect('user:profile')
     else:
         form = CustomUserCreationForm()
@@ -22,16 +22,19 @@ def login(request):
             password = form.cleaned_data.get('password')
             user = authenticate(request, username=username, password=password)
             if user is not None:
-                login(request, user)
+                auth_login(request, user)
                 return redirect('user:profile')
             else:
                 form.add_error(None, "Invalid username or password")
+        else:
+            form.add_error(None, "Invalid username or password")
     else:
         form = CustomAuthenticationForm()
     return render(request, 'user/login.html', {'form': form})
 
+@login_required
 def logout(request):
-    logout(request)
+    auth_logout(request)
     return redirect('/')
 
 @login_required
