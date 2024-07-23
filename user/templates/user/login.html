@@ -17,12 +17,12 @@
         <form method="post">
             {% csrf_token %}
             <div class="form-group">
-                {% for field in form %}
-                <div class="form-group">
-                    <label for="{{ field.id_for_label }}" class="form-label">{{ field.label }}</label>
-                    {{ field|add_class:"form-control" }}
-                </div>
-                {% endfor %}
+                {{ form.username.label_tag }}
+                {{ form.username|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+                {{ form.password.label_tag }}
+                {{ form.password|add_class:"form-control" }}
             </div>
             <button class="btn btn-primary m-2" type="submit">로그인</button>
         </form>
