@@ -1,14 +1,48 @@
 {% extends "base.html" %}
+{% load custom_tags %}
 
-{% block title %}Finance Service 회원가입{% endblock %}
+{% block title %}MarketVision 회원가입{% endblock %}
 
 {% block content %}
-<body>
-    <h2>회원가입</h2>
-    <form method="post">
-        {% csrf_token %}
-        {{ form.as_p }}
-        <button type="submit">회원가입</button>
-    </form>
-</body>
+<div class="row justify-content-center">
+    <div class="col-md-6">
+        <h2 class="my-4 text-center">회원가입</h2>
+        <form method="post" class="form">
+            {% csrf_token %}
+            <div class="form-group">
+                {{ form.first_name.label_tag }}
+                {{ form.first_name|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+                {{ form.last_name.label_tag }}
+                {{ form.last_name|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+                {{ form.username.label_tag }}
+                {{ form.username|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+                {{ form.email.label_tag }}
+                {{ form.email|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+                {{ form.gender.label_tag }}
+                {{ form.gender|add_class:"form-select" }}
+            </div>
+            <div class="form-group">
+                {{ form.password1.label_tag }}
+                {{ form.password1|add_class:"form-control" }}
+            </div>
+            <div class="form-group">
+                {{ form.password2.label_tag }}
+                {{ form.password2|add_class:"form-control" }}
+            </div>
+            <button class="btn btn-primary" type="submit">회원가입</button>
+        </form>
+    </div>
+</div>
+<div class="card-footer text-center">
+    <p>계정이 이미 있으신가요? <a href="{% url 'user:login' %}">여기</a>서 로그인하세요</p>
+    <p><a href="{% url 'home' %}">메인화면으로 돌아가기</a></p>
+</div>
 {% endblock %}
