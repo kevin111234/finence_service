@@ -17,6 +17,7 @@ class CustomUserCreationForm(UserCreationForm):
         self.fields['first_name'].label = '이름'
         self.fields['last_name'].label = '성'
         self.fields['email'].label = '이메일 주소'
+        self.fields['date_of_birth'].label = '생년월일 6자리'
 
 class CustomUserChangeForm(UserChangeForm):
     class Meta:
@@ -33,6 +34,7 @@ class CustomUserChangeForm(UserChangeForm):
         self.fields['first_name'].label = '이름'
         self.fields['last_name'].label = '성'
         self.fields['email'].label = '이메일 주소'
+        self.fields['date_of_birth'].label = '생년월일 6자리'
 
 class CustomAuthenticationForm(AuthenticationForm):
     username = forms.CharField(label='유저 ID', max_length=30, widget=forms.TextInput(attrs={'autofocus': True}))
