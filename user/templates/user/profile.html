@@ -3,5 +3,8 @@
 {% block title %}MarketVision 마이페이지{% endblock %}
 
 {% block content %}
-    <p class="text-center">{{ user.first_name }}님, 환영합니다!</p>
+    <div class="container p-4 mt-5 bg-light">
+        <h3 class="text-center">{{ user.first_name }}님, 환영합니다!</h3>
+        <a class="nav-link" href="{% url 'user:profile_update' %}">회원정보 수정하기</a>
+    </div>
 {% endblock %}
