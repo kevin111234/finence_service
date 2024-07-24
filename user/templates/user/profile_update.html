@@ -11,24 +11,29 @@
             <form method="POST">
                 {% csrf_token %}
                 <div class="form-group">
-                    {{ form.first_name.label_tag }}
-                    {{ form.first_name|add_class:"form-control" }}
+                    <label for="{{ form.first_name.id_for_label }}">{{ form.first_name.label }}</label>
+                    <input type="text" id="{{ form.first_name.id_for_label }}" name="{{ form.first_name.html_name }}" value="{{ form.first_name.value }}" class="form-control">
                 </div>
                 <div class="form-group">
-                    {{ form.last_name.label_tag }}
-                    {{ form.last_name|add_class:"form-control" }}
+                    <label for="{{ form.last_name.id_for_label }}">{{ form.last_name.label }}</label>
+                    <input type="text" id="{{ form.last_name.id_for_label }}" name="{{ form.last_name.html_name }}" value="{{ form.last_name.value }}" class="form-control">
                 </div>
                 <div class="form-group">
-                    {{ form.username.label_tag }}
-                    {{ form.username|add_class:"form-control" }}
+                    <label for="{{ form.username.id_for_label }}">{{ form.username.label }} </label>
+                    <input type="text" id="{{ form.username.id_for_label }}" name="{{ form.username.html_name }}" value="{{ form.username.value }}" class="form-control" disabled>
                 </div>
                 <div class="form-group">
-                    {{ form.email.label_tag }}
-                    {{ form.email|add_class:"form-control" }}
+                    <label for="{{ form.email.id_for_label }}">{{ form.email.label }} </label>
+                    <input type="email" id="{{ form.email.id_for_label }}" name="{{ form.email.html_name }}" value="{{ form.email.value }}" class="form-control" disabled>
                 </div>
                 <div class="form-group">
-                    {{ form.gender.label_tag }}
-                    {{ form.gender|add_class:"form-select" }}
+                    <label for="{{ form.gender.id_for_label }}">{{ form.gender.label }} </label>
+                    <select id="{{ form.gender.id_for_label }}" name="{{ form.gender.html_name }}" class="form-select">
+                        {% for choice in form.gender.field.choices %}
+                            <option value="{{ choice.0 }}" {% if choice.0 == form.gender.value %}selected{% endif %}>{{ choice.1 }}</option>
+                        {% endfor %}
+                    </select>
+                </div>
                 <button class="btn btn-primary m-3" type="submit">Save changes</button>
             </form>
             {% if messages %}
