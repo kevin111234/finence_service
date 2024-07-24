@@ -19,6 +19,7 @@ class CustomUserCreationForm(UserCreationForm):
         self.fields['email'].label = '이메일 주소'
 
 class CustomUserChangeForm(UserChangeForm):
+    password = None
     class Meta:
         model = CustomUser
         fields = ('username', 'email', 'first_name', 'last_name', 'gender')

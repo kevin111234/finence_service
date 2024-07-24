@@ -1,7 +1,8 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth import login as auth_login, authenticate, logout as auth_logout
-from .forms import CustomUserCreationForm, CustomAuthenticationForm
+from .forms import CustomUserCreationForm, CustomAuthenticationForm, CustomUserChangeForm
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
 
 def signup(request):
     if request.method == 'POST':
@@ -23,7 +24,7 @@ def login(request):
             user = authenticate(request, username=username, password=password)
             if user is not None:
                 auth_login(request, user)
-                return redirect('user:profile')
+                return redirect('/')
             else:
                 form.add_error(None, "Invalid username or password")
         else:
@@ -40,3 +41,15 @@ def logout(request):
 @login_required
 def profile(request):
     return render(request, 'user/profile.html')
+
+@login_required
+def profile_update(request):
+    if request.method == 'POST':
+        form = CustomUserChangeForm(request.POST, instance=request.user)
+        if form.is_valid():
+            form.save()
+            messages.success(request, 'Your profile was successfully updated!')
+            return redirect('mypage')
+    else:
+        form = CustomUserChangeForm(instance=request.user)
+    return render(request, 'user/profile_update.html', {'form': form})
