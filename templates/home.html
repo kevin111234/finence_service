@@ -58,7 +58,7 @@
                         {% if user.is_authenticated %}
                             {% if is_premium %}
                                 {% if is_exchange_rate %}
-                                    <a href="#" class="btn btn-primary btn-lg">분석 확인하기</a>
+                                    <a href="{% url 'exchange_rate:main' %}" class="btn btn-primary btn-lg">분석 확인하기</a>
                                 {% else %}
                                     <a class="btn btn-secondary">관리자 승인 후 사용가능합니다.</a>
                                 {% endif %}
