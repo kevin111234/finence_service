@@ -49,7 +49,8 @@ def profile_update(request):
         if form.is_valid():
             form.save()
             messages.success(request, 'Your profile was successfully updated!')
-            return redirect('mypage')
+        else:
+            messages.error(request, 'Please correct the error below.')
     else:
         form = CustomUserChangeForm(instance=request.user)
     return render(request, 'user/profile_update.html', {'form': form})

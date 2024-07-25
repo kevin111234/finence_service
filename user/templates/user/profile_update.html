@@ -20,11 +20,11 @@
                 </div>
                 <div class="form-group">
                     <label for="{{ form.username.id_for_label }}">{{ form.username.label }} </label>
-                    <input type="text" id="{{ form.username.id_for_label }}" name="{{ form.username.html_name }}" value="{{ form.username.value }}" class="form-control" disabled>
+                    <input type="text" id="{{ form.username.id_for_label }}" name="{{ form.username.html_name }}" value="{{ form.username.value }}" class="form-control" readonly>
                 </div>
                 <div class="form-group">
                     <label for="{{ form.email.id_for_label }}">{{ form.email.label }} </label>
-                    <input type="email" id="{{ form.email.id_for_label }}" name="{{ form.email.html_name }}" value="{{ form.email.value }}" class="form-control" disabled>
+                    <input type="email" id="{{ form.email.id_for_label }}" name="{{ form.email.html_name }}" value="{{ form.email.value }}" class="form-control" readonly>
                 </div>
                 <div class="form-group">
                     <label for="{{ form.gender.id_for_label }}">{{ form.gender.label }} </label>
@@ -34,14 +34,16 @@
                         {% endfor %}
                     </select>
                 </div>
-                <button class="btn btn-primary m-3" type="submit">Save changes</button>
+                <button class="btn btn-primary m-3" type="submit">변경사항 저장</button>
             </form>
             {% if messages %}
+            <div class="container m-2 text-white bg-secondary text-center" style="border-radius: 5px; width: 500px; height: 30px;">
                 <ul>
                     {% for message in messages %}
                         <li>{{ message }}</li>
                     {% endfor %}
                 </ul>
+            </div>
             {% endif %}
         </div>
     </div>
