@@ -17,7 +17,17 @@
                         <h5 class="card-title">코인 데이터 분석</h5>
                         <h6 class="card-subtitle mb-2 text-body-secondary">자체 분석 프로그램</h6>
                         <p class="card-text">코인의 가격을 <br> 기술적으로 분석합니다.</p>
-                        <a href="#" class="btn btn-primary btn-lg">분석 확인하기</a>
+                        {% if user.is_authenticated %}
+                            {% if is_premium %}
+                                {% if is_coin_analyze %}
+                                    <a href="#" class="btn btn-primary btn-lg">분석 확인하기</a>
+                                {% else %}
+                                    <a class="btn btn-secondary">관리자 승인 후 사용가능합니다.</a>
+                                {% endif %}
+                            {% endif %}
+                        {% else %}
+                        <a class="btn btn-secondary" href="{% url 'user:login' %}">로그인하고 기능 사용하기</a>
+                        {% endif %}
                     </div>
                 </div>
                 <!-- Button 2 -->
@@ -26,7 +36,17 @@
                         <h5 class="card-title">주가정보 데이터 분석</h5>
                         <h6 class="card-subtitle mb-2 text-body-secondary">자체 분석 프로그램</h6>
                         <p class="card-text">각 기업의 모멘텀 데이터를 <br> 분석합니다.</p>
-                        <a href="#" class="btn btn-primary btn-lg">분석 확인하기</a>
+                        {% if user.is_authenticated %}
+                            {% if is_premium %}
+                                {% if is_stock_analyze %}
+                                    <a href="#" class="btn btn-primary btn-lg">분석 확인하기</a>
+                                {% else %}
+                                    <a class="btn btn-secondary">관리자 승인 후 사용가능합니다.</a>
+                                {% endif %}
+                            {% endif %}
+                        {% else %}
+                        <a class="btn btn-secondary" href="{% url 'user:login' %}">로그인하고 기능 사용하기</a>
+                        {% endif %}
                     </div>
                 </div>
                 <!-- Button 3-->
@@ -35,7 +55,17 @@
                         <h5 class="card-title">환율 데이터 분석</h5>
                         <h6 class="card-subtitle mb-2 text-body-secondary">자체 분석 프로그램</h6>
                         <p class="card-text">원/달러 환율과 Dollar Index <br> 정보를 분석합니다.</p>
-                        <a href="#" class="btn btn-primary btn-lg">분석 확인하기</a>
+                        {% if user.is_authenticated %}
+                            {% if is_premium %}
+                                {% if is_exchange_rate %}
+                                    <a href="#" class="btn btn-primary btn-lg">분석 확인하기</a>
+                                {% else %}
+                                    <a class="btn btn-secondary">관리자 승인 후 사용가능합니다.</a>
+                                {% endif %}
+                            {% endif %}
+                        {% else %}
+                        <a class="btn btn-secondary" href="{% url 'user:login' %}">로그인하고 기능 사용하기</a>
+                        {% endif %}
                     </div>
                 </div>
                 <!-- Button 4 -->
@@ -44,7 +74,17 @@
                         <h5 class="card-title">Ai 생성형 글쓰기</h5>
                         <h6 class="card-subtitle mb-2 text-body-secondary">Chat GPT-4o</h6>
                         <p class="card-text">블로그 업로드용 글을 <br> 자동으로 생성해줍니다.</p>
-                        <a href="#" class="btn btn-primary btn-lg">글쓰러 가기</a>
+                        {% if user.is_authenticated %}
+                            {% if is_premium %}
+                                {% if is_writing_ai %}
+                                    <a href="#" class="btn btn-primary btn-lg">글쓰러가기</a>
+                                {% else %}
+                                    <a class="btn btn-secondary">관리자 승인 후 사용가능합니다.</a>
+                                {% endif %}
+                            {% endif %}
+                        {% else %}
+                        <a class="btn btn-secondary" href="{% url 'user:login' %}">로그인하고 기능 사용하기</a>
+                        {% endif %}
                     </div>
                 </div>
             </div>
