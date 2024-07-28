@@ -1,3 +1,5 @@
 django == 5.0.6
 python-dotenv == 1.0.1
 mysqlclient == 2.2.4
+apscheduler == 3.10.4
+django-apscheduler == 0.6.2
