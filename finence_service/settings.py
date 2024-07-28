@@ -55,6 +55,9 @@ INSTALLED_APPS = [
 
     # user management
     'user',
+
+    # background task
+    'django_apscheduler',
 ]
 
 MIDDLEWARE = [
