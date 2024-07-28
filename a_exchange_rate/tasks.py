@@ -1,3 +1,8 @@
 def crawling_exchange():
-    # 여기에 실행할 코드를 작성하세요.
-    print("Exchagne_rate 크롤링 작업을 수행합니다.")
+    print("환율정보 크롤링 작업을 수행합니다.")
+    # 환율정보 크롤링
+    # 달러인덱스 크롤링
+
+def slack_exchange():
+    print("slack에 환율정보를 전송합니다")
+    # 환율, 달러인덱스 전송
