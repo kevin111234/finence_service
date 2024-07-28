@@ -7,7 +7,7 @@ import logging
 logger = logging.getLogger(__name__)
 
 def my_scheduled_task():
-    print("Scheduled task executed.")
+    print("스케줄된 작업을 수행합니다")
 
 def start():
     scheduler = BackgroundScheduler()
@@ -18,12 +18,10 @@ def start():
     register_events(scheduler)
     scheduler.start()
     logger.info("Scheduler started...")
-    print("스케쥴러 실행 성공!")
+    print("스케줄러 실행 성공!")
 
     # 작업이 올바르게 등록되었는지 확인
     if job:
         logger.info(f"Job {job.id} added to scheduler.")
-        print(f"Job {job.id} added to scheduler.")
     else:
         logger.error("Job was not added to scheduler.")
-        print("Job was not added to scheduler.")
