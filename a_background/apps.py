@@ -1,6 +1,7 @@
 from django.apps import AppConfig
 
-
-class ABackgroundConfig(AppConfig):
-    default_auto_field = 'django.db.models.BigAutoField'
+class a_backgroundConfig(AppConfig):
     name = 'a_background'
+
+    def ready(self):
+        pass
