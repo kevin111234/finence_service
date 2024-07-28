@@ -3,6 +3,9 @@ from apscheduler.triggers.cron import CronTrigger
 from django_apscheduler.jobstores import DjangoJobStore, register_events
 from django_apscheduler.models import DjangoJobExecution
 import logging
+from a_coin_analyze.tasks import crawling_coin
+from a_exchange_rate.tasks import crawling_exchange
+from a_stock_analyze.tasks import crawling_stock
 
 logger = logging.getLogger(__name__)
 
@@ -14,6 +17,9 @@ def start():
     scheduler.add_jobstore(DjangoJobStore(), "default")
 
     job = scheduler.add_job(my_scheduled_task, CronTrigger(minute="*/5"), id="my_scheduled_task", replace_existing=True)
+    job = scheduler.add_job(crawling_coin, CronTrigger(minute="*/5"), id="my_scheduled_task", replace_existing=True)
+    job = scheduler.add_job(crawling_exchange, CronTrigger(minute="*/5"), id="my_scheduled_task", replace_existing=True)
+    job = scheduler.add_job(crawling_stock, CronTrigger(minute="*/5"), id="my_scheduled_task", replace_existing=True)
 
     register_events(scheduler)
     scheduler.start()
