@@ -16,19 +16,19 @@ def start():
     # 각 작업을 스케줄러에 추가하고 로그를 남깁니다.
 
     try:
-        job = scheduler.add_job(crawling_coin, CronTrigger(minute="*/5"), id="coin_crawling", replace_existing=True)
+        job = scheduler.add_job(crawling_coin, CronTrigger(minute="*/30"), id="coin_crawling", replace_existing=True)
         logger.info(f"Job {job.id} added to scheduler.")
     except Exception as e:
         logger.error(f"Error adding job coin_crawling: {e}")
 
     try:
-        job = scheduler.add_job(crawling_exchange, CronTrigger(minute="*/5"), id="exchange_crawling", replace_existing=True)
+        job = scheduler.add_job(crawling_exchange, CronTrigger(minute="*/30"), id="exchange_crawling", replace_existing=True)
         logger.info(f"Job {job.id} added to scheduler.")
     except Exception as e:
         logger.error(f"Error adding job exchange_crawling: {e}")
 
     try:
-        job = scheduler.add_job(crawling_stock, CronTrigger(minute="*/5"), id="stock_crawling", replace_existing=True)
+        job = scheduler.add_job(crawling_stock, CronTrigger(minute="*/30"), id="stock_crawling", replace_existing=True)
         logger.info(f"Job {job.id} added to scheduler.")
     except Exception as e:
         logger.error(f"Error adding job stock_crawling: {e}")
