@@ -1,7 +1,13 @@
+import os
+import django
+
+os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'finence_service.settings')
+django.setup()
+
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-from tqdm import tqdm
+from .models import ExchangeRate
 
 class ExchangeRateCrawler: # 데이터 구성용 class
     def __init__(self): #class 정의 시 바로 실행
@@ -9,11 +15,11 @@ class ExchangeRateCrawler: # 데이터 구성용 class
         self.date_list = []
         self.rate_list = []
 
-    def generate_urls(self, pages): # url 구성
+    def generate_urls(self, pages):
         return [f'{self.base_url}{i+1}' for i in range(pages)]
     
-    def crawl_data(self, urls): # 크롤링 진행
-        for url in tqdm(urls, desc="크롤링 진행도", unit="page"):
+    def crawl_data(self, urls):
+        for url in urls:
             response = requests.get(url)
             soup = BeautifulSoup(response.content, "html.parser")
             for row in soup.find_all("tr"):
@@ -32,12 +38,20 @@ class ExchangeRateCrawler: # 데이터 구성용 class
         })
 
     def save_to_database(self, df): # 데이터베이스에 저장
-        print("데이터베이스에 저장합니다...")
+        for _, row in df.iterrows():
+            exchange_rate, created = ExchangeRate.objects.get_or_create(
+                date=row['날짜'],
+                defaults={'rate': row['환율']}
+            )
+            if not created:
+                exchange_rate.rate = row['환율']
+                exchange_rate.save()
+        print("데이터베이스에 저장되었습니다.")
 
     def run(self): # 함수 실행문
         urls = self.generate_urls(37)
         self.crawl_data(urls)
         df = self.create_dataframe()
-        print(df, "다음 내용을 데이터베이스에 저장합니다...")
+        print(df)
         self.save_to_database(df)
         print("데이터베이스에 저장 완료!")
