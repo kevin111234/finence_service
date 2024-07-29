@@ -18,6 +18,7 @@ def start():
     try:
         job = scheduler.add_job(crawling_coin, CronTrigger(minute="*/30"), id="coin_crawling", replace_existing=True)
         logger.info(f"Job {job.id} added to scheduler.")
+        print("coin 크롤링 작업 등록 완료")
     except Exception as e:
         logger.error(f"Error adding job coin_crawling: {e}")
 
@@ -25,6 +26,7 @@ def start():
     try:
         job = scheduler.add_job(crawling_exchange, CronTrigger(minute="*/20"), id="exchange_crawling", replace_existing=True)
         logger.info(f"Job {job.id} added to scheduler.")
+        print("exchange rate 크롤링 작업 등록 완료")
     except Exception as e:
         logger.error(f"Error adding job exchange_crawling: {e}")
 
@@ -32,12 +34,14 @@ def start():
     try:
         job = scheduler.add_job(slack_exchange, CronTrigger(minute="*/30"), id="exchange_crawling", replace_existing=True)
         logger.info(f"Job {job.id} added to scheduler.")
+        print("slack 알림 작업 등록 완료")
     except Exception as e:
         logger.error(f"Error adding job exchange_crawling: {e}")
 
     try:
         job = scheduler.add_job(crawling_stock, CronTrigger(minute="*/30"), id="stock_crawling", replace_existing=True)
         logger.info(f"Job {job.id} added to scheduler.")
+        print("stock 크롤링 작업 등록 완료")
     except Exception as e:
         logger.error(f"Error adding job stock_crawling: {e}")
 
