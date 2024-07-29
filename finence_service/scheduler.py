@@ -32,7 +32,7 @@ def start():
 
     # Slack 환율정보 알림 (30분마다)
     try:
-        job = scheduler.add_job(slack_exchange, CronTrigger(minute="*/30"), id="exchange_crawling", replace_existing=True)
+        job = scheduler.add_job(slack_exchange, CronTrigger(minute="*/30"), id="slack_notice", replace_existing=True)
         logger.info(f"Job {job.id} added to scheduler.")
         print("slack 알림 작업 등록 완료")
     except Exception as e:
