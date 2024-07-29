@@ -1,6 +1,6 @@
 def crawling_exchange():
-    print("환율정보 크롤링 작업을 수행합니다.")
 # 환율정보 크롤링
+    print("환율정보 크롤링 작업을 수행합니다.")
     import exchange_rate_crawling
     crawler = exchange_rate_crawling.ExchangeRateCrawler()
     crawler.run()

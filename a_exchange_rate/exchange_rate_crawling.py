@@ -49,7 +49,7 @@ class ExchangeRateCrawler: # 데이터 구성용 class
         print("데이터베이스에 저장되었습니다.")
 
     def run(self): # 함수 실행문
-        urls = self.generate_urls(37)
+        urls = self.generate_urls(20)
         self.crawl_data(urls)
         df = self.create_dataframe()
         print(df)
