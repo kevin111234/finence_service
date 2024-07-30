@@ -5,7 +5,7 @@ from .models import ExchangeRate
 import pandas as pd
 import plotly.express as px
 import plotly.io as pio
-import plotly.graph_objects as go
+from django.core.paginator import Paginator  
 
 def group_required(group_name):
     def in_group(user):
@@ -34,6 +34,7 @@ def main(request):
 
 @group_required('exchange_rate')
 def rate_detail(request):
+    page = request.GET.get('page', '1')  # 페이지
     # 데이터 기본 처리
     data = ExchangeRate.objects.all().values()
     df = pd.DataFrame(data)
@@ -42,9 +43,12 @@ def rate_detail(request):
     df = df.sort_values(by='date')  # 날짜 순서로 정렬
     df['rate_change'] = df['rate'].diff().round(3)
     df = df.iloc[::-1]
+    df = df.dropna().to_dict('records')
+    paginator = Paginator(df, 10)
+    page_obj = paginator.get_page(page)
 
     context = {
         'exchange_rates': exchange_rates,
-        'rate_changes': df.dropna().to_dict('records'),
+        'rate_changes': page_obj,
     }
     return render(request, 'exchange_rate/rate_detail.html', context)
