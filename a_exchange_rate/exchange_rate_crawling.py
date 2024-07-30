@@ -62,3 +62,16 @@ class ExchangeRateCrawler: # 데이터 구성용 class
         print(df)
         self.save_to_database(df)
         print("데이터베이스에 저장 완료!")
+
+# 달러 인덱스 크롤링
+def DollarIndexCrawler():
+    dollar_index_url = 'https://kr.investing.com/currencies/us-dollar-index'
+    response = requests.get(dollar_index_url)
+    # HTML 파싱
+    soup = BeautifulSoup(response.content, "html.parser")
+    dollar_index_value = soup.find("span", {"id": "last_last"})
+    if dollar_index_value:
+        result = f"{dollar_index_value.text.strip()}"
+    else:
+        result = "달러 인덱스 값을 찾을 수 없습니다."
+    return result
