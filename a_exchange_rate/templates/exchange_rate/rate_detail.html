@@ -62,7 +62,9 @@
         <!-- 페이징처리 끝 -->
     </div>
 </div>
-<a href="{% url 'exchange_rate:main' %}" class="btn btn-primary btn-lg">대시보드로 돌아가기</a>
+<div class="container text-center">
+    <a href="{% url 'exchange_rate:main' %}" class="btn btn-secondary btn-lg">대시보드로 돌아가기</a>
+</div>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const rateChangeCells = document.querySelectorAll('#rate_changes_table td[data-rate-change]');

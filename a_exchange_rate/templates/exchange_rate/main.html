@@ -3,7 +3,7 @@
 {% block title %}Exchange Rate 메인 화면{% endblock %}
 
 {% block content %}
-<div class="container text-center" style="width: 700px;">
+<div class="container text-center" style="width: 800px;">
     <div class="container bg-light">
         <h2>Exchange Rate 대쉬보드</h2>
         <p>환영합니다! {{ user.first_name }}님! 이곳에서는 환율에 대한 다양한 정보와 분석을 확인할 수 있습니다!</p>
@@ -19,8 +19,8 @@
         {{ graph|safe }}
     </div>
     <div>
-        <a href="{% url 'exchange_rate:rate_detail' %}" class="btn btn-primary btn-lg">자세한 환율데이터 확인하기</a>
-        <a href="{% url 'home' %}" class="btn btn-primary btn-lg">메인화면으로 돌아가기</a>
+        <a href="{% url 'exchange_rate:rate_detail' %}" class="btn btn-primary m-3 btn-lg">자세한 환율데이터 확인하기</a>
+        <a href="{% url 'home' %}" class="btn btn-secondary m-3 btn-lg">메인화면으로 돌아가기</a>
     </div>
 </div>
 {% endblock %}

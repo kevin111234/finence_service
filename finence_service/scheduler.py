@@ -1,10 +1,8 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 from django_apscheduler.jobstores import DjangoJobStore, register_events
-from django_apscheduler.models import DjangoJobExecution
-import logging
 from a_coin_analyze.tasks import crawling_coin
-from a_exchange_rate.tasks import crawling_exchange, slack_exchange
+from a_exchange_rate.tasks import crawling_exchange, slack_exchange, crawling_index
 from a_stock_analyze.tasks import crawling_stock
 
 def start():
@@ -20,11 +18,19 @@ def start():
     except Exception as e:
         print(f"Error adding job coin_crawling: {e}")
 
-    # 환율, 달러 인덱스 데이터 크롤링 (2시간 마다)
+    # 환율 데이터 크롤링 (2시간 마다)
     try:
-        job = scheduler.add_job(crawling_exchange, CronTrigger(hour="*/2"), id="exchange_crawling", replace_existing=True)
+        job = scheduler.add_job(crawling_exchange, CronTrigger(hour="*/5"), id="exchange_crawling", replace_existing=True)
         print(f"Job {job.id} added to scheduler.")
         print("exchange rate 크롤링 작업 등록 완료")
+    except Exception as e:
+        print(f"Error adding job exchange_crawling: {e}")
+
+    # 달러 인덱스 데이터 크롤링 (2시간 마다)
+    try:
+        job = scheduler.add_job(crawling_index, CronTrigger(minute="*/30"), id="index_crawling", replace_existing=True)
+        print(f"Job {job.id} added to scheduler.")
+        print("dollar index 크롤링 작업 등록 완료")
     except Exception as e:
         print(f"Error adding job exchange_crawling: {e}")
 
