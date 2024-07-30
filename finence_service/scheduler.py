@@ -20,9 +20,9 @@ def start():
     except Exception as e:
         print(f"Error adding job coin_crawling: {e}")
 
-    # 환율, 달러 인덱스 데이터 크롤링 (20분마다)
+    # 환율, 달러 인덱스 데이터 크롤링 (2시간 마다)
     try:
-        job = scheduler.add_job(crawling_exchange, CronTrigger(minute="*/20"), id="exchange_crawling", replace_existing=True)
+        job = scheduler.add_job(crawling_exchange, CronTrigger(hour="*/2"), id="exchange_crawling", replace_existing=True)
         print(f"Job {job.id} added to scheduler.")
         print("exchange rate 크롤링 작업 등록 완료")
     except Exception as e:
