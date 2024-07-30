@@ -4,15 +4,22 @@
 
 {% block content %}
 <div class="container text-center" style="width: 700px;">
-    <h2>Exchange Rate 대쉬보드</h2>
-    <p>환영합니다! {{ user.first_name }}님! 이곳에서는 환율에 대한 다양한 정보와 분석을 확인할 수 있습니다!</p>
-    <div class="text-bg-primary p-3 m-2" style="border-radius: 10px;">
+    <div class="container bg-light">
+        <h2>Exchange Rate 대쉬보드</h2>
+        <p>환영합니다! {{ user.first_name }}님! 이곳에서는 환율에 대한 다양한 정보와 분석을 확인할 수 있습니다!</p>
+    </div>
+    <div class="text-bg-success p-3 m-2" style="border-radius: 10px;">
         {% if latest_rate %}
             <h5> {{ latest_rate.date }} 기준 원/달러 환율은 {{ latest_rate.rate }}원 입니다.</h5>
         {% else %}
             <h5>데이터를 불러올 수 없습니다. 나중에 다시 시도해 주세요.</h5>
         {% endif %}
     </div>
+    <div>
+        {{ graph|safe }}
+    </div>
+    <div>
+        <a href="{% url 'exchange_rate:rate_detail' %}" class="btn btn-primary btn-lg">자세한 환율데이터 확인하기</a>
+    </div>
 </div>
-
 {% endblock %}
