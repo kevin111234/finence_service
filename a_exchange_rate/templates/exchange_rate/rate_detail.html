@@ -1,0 +1,25 @@
+{% extends "base.html" %}
+
+{% block title %}Exchange Rate 세부환율{% endblock %}
+
+{% block content %}
+<div class="container text-center" style="width: 700px;">
+    <h2>환율 정보 상세보기</h2>
+    <div>
+        <table class="table">
+            <tr>
+                <th>Date</th>
+                <th>Rate</th>
+                <th>Rate Change</th>
+            </tr>
+            {% for change in rate_changes %}
+            <tr>
+                <td>{{ change.date }}</td>
+                <td>{{ change.rate }}</td>
+                <td>{{ change.rate_change }}</td>
+            </tr>
+            {% endfor %}
+        </table>
+    </div>
+</div>
+{% endblock %}

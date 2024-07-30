@@ -6,3 +6,4 @@ django-apscheduler == 0.6.2
 requests == 2.31.0
 bs4 == 0.0.2
 pandas == 2.2.2
+plotly == 5.22.0
