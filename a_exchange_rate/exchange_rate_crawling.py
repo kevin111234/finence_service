@@ -1,5 +1,8 @@
 import os
 import django
+import sys
+
+sys.path.append(os.path.dirname(os.path.dirname(os.path.abspath(__file__))))
 
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'finence_service.settings')
 django.setup()
@@ -7,7 +10,8 @@ django.setup()
 import requests
 from bs4 import BeautifulSoup
 import pandas as pd
-from .models import ExchangeRate
+from a_exchange_rate.models import ExchangeRate
+from datetime import datetime
 
 class ExchangeRateCrawler: # 데이터 구성용 class
     def __init__(self): #class 정의 시 바로 실행
@@ -28,7 +32,10 @@ class ExchangeRateCrawler: # 데이터 구성용 class
                 if cells_date and cells_num:
                     date_text = cells_date[0].text.strip()
                     rate_text = cells_num[0].text.strip().replace(",", "")
-                    self.date_list.append(date_text)
+                    # 날짜 형식을 변환합니다.
+                    date_obj = datetime.strptime(date_text, '%Y.%m.%d')
+                    formatted_date = date_obj.strftime('%Y-%m-%d')
+                    self.date_list.append(formatted_date)
                     self.rate_list.append(float(rate_text))
 
     def create_dataframe(self): # 데이터프레임으로 변환
@@ -49,7 +56,7 @@ class ExchangeRateCrawler: # 데이터 구성용 class
         print("데이터베이스에 저장되었습니다.")
 
     def run(self): # 함수 실행문
-        urls = self.generate_urls(20)
+        urls = self.generate_urls(10)
         self.crawl_data(urls)
         df = self.create_dataframe()
         print(df)
