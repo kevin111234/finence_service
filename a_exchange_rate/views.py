@@ -6,6 +6,7 @@ import pandas as pd
 import plotly.express as px
 import plotly.io as pio
 from django.core.paginator import Paginator  
+from datetime import datetime, timedelta
 
 def group_required(group_name):
     def in_group(user):
@@ -19,10 +20,15 @@ def main(request):
     # 데이터 기본 처리
     data = ExchangeRate.objects.all().values()
     df = pd.DataFrame(data)
+    df['date'] = pd.to_datetime(df['date'])
+    # 3개월 간의 데이터만 추출
+    three_months_ago = datetime.now() - timedelta(days=90)
+    df = df[df['date'] > three_months_ago]
+
     latest_rate = ExchangeRate.objects.order_by('-date').first() # 가장 최신 환율 데이터
     
     # 그래프 생성
-    fig = px.line(df, x='date', y='rate', title='Exchange Rate Over Time')
+    fig = px.line(df, x='date', y='rate', title='3개월간의 환율 변화')
     graph = pio.to_html(fig, full_html=False)
 
     context = {
