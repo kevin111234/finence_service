@@ -3,7 +3,7 @@ from apscheduler.triggers.cron import CronTrigger
 from django_apscheduler.jobstores import DjangoJobStore, register_events
 from a_coin_analyze.tasks import crawling_coin
 from a_exchange_rate.tasks import crawling_exchange, slack_exchange, crawling_index
-from a_stock_analyze.tasks import crawling_stock
+from a_stock_analyze.tasks import stock_ticker_save, stock_data_save
 
 def start():
     scheduler = BackgroundScheduler()
@@ -43,11 +43,19 @@ def start():
         print(f"Error adding job exchange_crawling: {e}")
 
     try:
-        job = scheduler.add_job(crawling_stock, CronTrigger(minute="*/30"), id="stock_crawling", replace_existing=True)
+        job = scheduler.add_job(stock_ticker_save, CronTrigger(hour="*/5"), id="stock_ticker_save", replace_existing=True)
         print(f"Job {job.id} added to scheduler.")
-        print("stock 크롤링 작업 등록 완료")
+        print("stock ticker 크롤링 작업 등록 완료")
     except Exception as e:
         print(f"Error adding job stock_crawling: {e}")
+
+    try:
+        job = scheduler.add_job(stock_data_save, CronTrigger(hour="*/5"), id="stock_data_save", replace_existing=True)
+        print(f"Job {job.id} added to scheduler.")
+        print("stock data 크롤링 작업 등록 완료")
+    except Exception as e:
+        print(f"Error adding job stock_crawling: {e}")
+
 
     # 이벤트 등록
     register_events(scheduler)
