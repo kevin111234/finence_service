@@ -5,8 +5,11 @@
 {% block content %}
     <div class="container p-4 mt-5 bg-light">
         <h3 class="text-center">{{ user.first_name }}님, 환영합니다!</h3>
-        <div class="d-grid gap-2 col-6 mx-auto">
+        <div class="d-grid gap-2 col-6 mx-auto" style="width: 40%;">
             <button type="button" class="btn btn-primary m-3" onClick="redirectToProfileUpdate()">회원정보 수정</button>
+            {% if is_premium %}
+                <a href="/admin/" class="btn btn-primary m-3">관리자 페이지로 이동하기</a>
+            {% endif %}
         </div>
     </div>
 

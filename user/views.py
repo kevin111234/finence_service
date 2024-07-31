@@ -40,7 +40,18 @@ def logout(request):
 
 @login_required
 def profile(request):
-    return render(request, 'user/profile.html')
+    user = request.user
+    is_authenticated = user.is_authenticated
+    # main groups
+    is_premium= user.groups.filter(name='premium').exists() if is_authenticated else False
+    is_normal= user.groups.filter(name='normal').exists() if is_authenticated else False
+    context = {
+        'is_authenticated': is_authenticated,
+        # main groups
+        'is_premium': is_premium,
+        'is_normal': is_normal,
+    }
+    return render(request, 'user/profile.html', context)
 
 @login_required
 def profile_update(request):
