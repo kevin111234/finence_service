@@ -16,7 +16,7 @@ def group_required(group_name):
     return user_passes_test(in_group, login_url='/login/')
 
 @group_required('exchange_rate')
-def main(request):
+def us_rate(request):
     data = ExchangeRate.objects.all().values()
     df = pd.DataFrame(data)
     page = request.GET.get('page', '1')  # 페이지
@@ -43,4 +43,4 @@ def main(request):
         'rate_changes': page_obj,
         'graph': graph,
     }
-    return render(request, 'exchange_rate/main.html', context)
+    return render(request, 'exchange_rate/us_rate.html', context)

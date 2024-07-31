@@ -4,5 +4,5 @@ from . import views
 app_name = 'exchange_rate'
 
 urlpatterns = [
-    path('', views.main, name='main'),
+    path('', views.us_rate, name='us_rate'),
 ]

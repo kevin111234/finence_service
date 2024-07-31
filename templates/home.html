@@ -53,7 +53,7 @@
                         <p class="card-text">원/달러 환율과 Dollar Index <br> 정보를 분석합니다.</p>
                         {% if user.is_authenticated %}
                             {% if is_exchange_rate %}
-                                <a href="{% url 'exchange_rate:main' %}" class="btn btn-primary btn-lg">분석 확인하기</a>
+                                <a href="{% url 'exchange_rate:us_rate' %}" class="btn btn-primary btn-lg">분석 확인하기</a>
                             {% else %}
                                 <a class="btn btn-secondary">관리자 승인 후 사용가능합니다.</a>
                             {% endif %}
