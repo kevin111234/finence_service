@@ -53,7 +53,7 @@ def save_historical_stock_data():
             
             if last_saved_date is None:
                 # 데이터가 없는 경우 가장 오래된 시점부터 데이터 가져오기
-                start_date = '2000-01-01'  # 임의의 오래된 날짜
+                start_date = datetime.strptime('2000-01-01', '%Y-%m-%d')
             else:
                 # 데이터가 있는 경우 마지막 저장된 날짜 이후부터 데이터 가져오기
                 start_date = last_saved_date + timedelta(days=1)
