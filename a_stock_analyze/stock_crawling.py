@@ -73,7 +73,7 @@ def save_historical_stock_data():
                         'volume': data['Volume']
                     }
                 )
-                print(f'{stock.symbol} 주가 데이터 업데이트 완료')
+            print(f'{stock.symbol} 주가 데이터 업데이트 완료')
         except Exception as e:
             print(f"Error saving historical data for {stock.symbol}: {e}")
         
