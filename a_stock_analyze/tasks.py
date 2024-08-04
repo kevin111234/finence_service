@@ -25,5 +25,10 @@ def stock_index_save():
     from a_stock_analyze.stock_crawling import save_stockindex_data
     save_stockindex_data()
 
+def commodity_data_save():
+    print("원자재 데이터 작업을 수행합니다.")
+    from a_stock_analyze.stock_crawling import save_commodity_data
+    save_commodity_data()
+
 if __name__ == '__main__':
     stock_index_save()

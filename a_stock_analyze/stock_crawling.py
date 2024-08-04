@@ -9,7 +9,7 @@ django.setup()
 
 import FinanceDataReader as fdr
 from datetime import datetime, timedelta
-from a_stock_analyze.models import Stock, HistoricalStockData, StockIndex, HistoricalStockIndexData
+from a_stock_analyze.models import Stock, HistoricalStockData, StockIndex, HistoricalStockIndexData, Commodity, HistoricalCommodityData
 from django.db.models import Max
 
 def ticker_update():
@@ -121,3 +121,44 @@ def save_stockindex_data():
             print(f"Error saving historical data for {index.symbol}: {e}")
 
     print("주요 인덱스의 역사적 데이터 저장 완료")
+
+def save_commodity_data():
+    commodities = [
+        {'symbol': 'GC', 'name': 'Gold'},
+        {'symbol': 'SI', 'name': 'Silver'}
+    ]
+    
+    for commodity_info in commodities:
+        commodity, created = Commodity.objects.get_or_create(symbol=commodity_info['symbol'], defaults={'name': commodity_info['name']})
+        
+        try:
+            # 해당 원자재의 데이터베이스에 저장된 마지막 날짜를 가져옵니다.
+            last_saved_date = HistoricalCommodityData.objects.filter(commodity=commodity).aggregate(Max('date'))['date__max']
+            
+            if last_saved_date is None:
+                # 데이터가 없는 경우 가장 오래된 시점부터 데이터 가져오기
+                start_date = datetime.strptime('2013-01-01', '%Y-%m-%d')
+            else:
+                # 데이터가 있는 경우 마지막 저장된 날짜 이후부터 데이터 가져오기
+                start_date = last_saved_date + timedelta(days=1)
+            
+            # 특정 원자재의 역사적 데이터 가져오기
+            commodity_data = fdr.DataReader(commodity.symbol, data_source='COMMODITY', start=start_date.strftime('%Y-%m-%d'), end=datetime.now().strftime('%Y-%m-%d'))
+            
+            for date, data in commodity_data.iterrows():
+                HistoricalCommodityData.objects.update_or_create(
+                    commodity=commodity,
+                    date=date.date(),
+                    defaults={
+                        'open': data['Open'],
+                        'high': data['High'],
+                        'low': data['Low'],
+                        'close': data['Close'],
+                        'volume': data.get('Volume', None)  # 볼륨 데이터가 없는 경우도 처리
+                    }
+                )
+            print(f"{commodity.symbol} 원자재 데이터 저장 완료")
+        except Exception as e:
+            print(f"Error saving historical data for {commodity.symbol}: {e}")
+
+    print("원자재의 역사적 데이터 저장 완료")
