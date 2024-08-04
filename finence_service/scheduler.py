@@ -3,7 +3,7 @@ from apscheduler.triggers.cron import CronTrigger
 from django_apscheduler.jobstores import DjangoJobStore, register_events
 from a_coin_analyze.tasks import crawling_coin
 from a_exchange_rate.tasks import crawling_exchange, slack_exchange, crawling_index
-from a_stock_analyze.tasks import stock_ticker_save, stock_data_save
+from a_stock_analyze.tasks import stock_ticker_save, stock_data_save, stock_index_save
 
 def start():
     scheduler = BackgroundScheduler()
@@ -39,7 +39,11 @@ def start():
         print(f"Job {job.id} added to scheduler.")
         print("stock data 크롤링 작업 등록 완료")
 
-    # 지표 데이터 저장 (오후 4시 마다)
+    # 시장 지표 데이터 저장 (오후 4시 마다)
+        job = scheduler.add_job(stock_index_save, CronTrigger(hour=16, minute=0), id="stock_index_save", replace_existing=True)
+        print(f"Job {job.id} added to scheduler.")
+        print("index 데이터 저장 작업 등록 완료")
+
     # 원자재 데이터 저장 (오후 4시 마다)
     # 재무제표 데이터 저장 (오후 5시 마다)
 
