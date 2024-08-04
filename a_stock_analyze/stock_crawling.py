@@ -9,7 +9,7 @@ django.setup()
 
 import FinanceDataReader as fdr
 from datetime import datetime, timedelta
-from a_stock_analyze.models import Stock, HistoricalStockData
+from a_stock_analyze.models import Stock, HistoricalStockData, StockIndex, HistoricalStockIndexData
 from django.db.models import Max
 
 def ticker_update():
@@ -78,3 +78,46 @@ def save_historical_stock_data():
             print(f"Error saving historical data for {stock.symbol}: {e}")
         
     print("미국 주식의 역사적 데이터 저장 완료")
+
+def save_stockindex_data():
+    indices = [
+        {'symbol': 'IXIC', 'name': 'NASDAQ Composite'},
+        {'symbol': 'DJI', 'name': 'Dow Jones Industrial Average'},
+        {'symbol': 'GSPC', 'name': 'S&P 500'},
+        {'symbol': 'RUT', 'name': 'Russell 2000'}
+    ]
+    
+    for index_info in indices:
+        index, created = StockIndex.objects.get_or_create(symbol=index_info['symbol'], defaults={'name': index_info['name']})
+        
+        try:
+            # 해당 인덱스의 데이터베이스에 저장된 마지막 날짜를 가져옵니다.
+            last_saved_date = HistoricalStockIndexData.objects.filter(index=index).aggregate(Max('date'))['date__max']
+            
+            if last_saved_date is None:
+                # 데이터가 없는 경우 가장 오래된 시점부터 데이터 가져오기
+                start_date = datetime.strptime('2013-01-01', '%Y-%m-%d')
+            else:
+                # 데이터가 있는 경우 마지막 저장된 날짜 이후부터 데이터 가져오기
+                start_date = last_saved_date + timedelta(days=1)
+            
+            # 특정 인덱스의 역사적 데이터 가져오기
+            index_data = fdr.DataReader(index.symbol, start=start_date.strftime('%Y-%m-%d'), end=datetime.now().strftime('%Y-%m-%d'))
+            
+            for date, data in index_data.iterrows():
+                HistoricalStockIndexData.objects.update_or_create(
+                    index=index,
+                    date=date.date(),
+                    defaults={
+                        'open': data['Open'],
+                        'high': data['High'],
+                        'low': data['Low'],
+                        'close': data['Close'],
+                        'volume': data.get('Volume', None)  # 볼륨 데이터가 없는 경우도 처리
+                    }
+                )
+            print(f"{index.symbol} 시장 인덱스 데이터 업데이트 완료")
+        except Exception as e:
+            print(f"Error saving historical data for {index.symbol}: {e}")
+
+    print("주요 인덱스의 역사적 데이터 저장 완료")

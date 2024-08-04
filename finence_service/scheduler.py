@@ -12,6 +12,7 @@ def start():
     # 각 작업을 스케줄러에 추가하고 로그를 남깁니다.
 
     try:
+# exchange_rate
     # 환율 데이터 저장 (오후 2시 마다)
         job = scheduler.add_job(crawling_exchange, CronTrigger(hour=14, minute=0), id="exchange_crawling", replace_existing=True)
         print(f"Job {job.id} added to scheduler.")
@@ -27,6 +28,7 @@ def start():
         print(f"Job {job.id} added to scheduler.")
         print("slack 알림 작업 등록 완료")
 
+# stock_analyze
     # 주식 티커 저장 (오후 3시 30분 마다)
         job = scheduler.add_job(stock_ticker_save, CronTrigger(hour=15, minute=30), id="stock_ticker_save", replace_existing=True)
         print(f"Job {job.id} added to scheduler.")

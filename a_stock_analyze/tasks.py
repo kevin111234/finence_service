@@ -19,10 +19,11 @@ def stock_data_save():
     from a_stock_analyze.stock_crawling import save_historical_stock_data
     save_historical_stock_data()
 
-def crawling_statement():
-    print("재무제표 작업을 수행합니다.")
-    # 분기별/ 월별로 수행
-    # 재무제표 업데이트
+def stock_index_save():
+    print("시장 인덱스 데이터 작업을 수행합니다.")
+    # 주식 인덱스 업데이트
+    from a_stock_analyze.stock_crawling import save_stockindex_data
+    save_stockindex_data()
 
 if __name__ == '__main__':
-    stock_data_save()
+    stock_index_save()

@@ -25,3 +25,25 @@ class HistoricalStockData(models.Model):
 
     def __str__(self):
         return f"{self.stock.symbol} - {self.date}"
+
+class StockIndex(models.Model):
+    symbol = models.CharField(max_length=10, unique=True)
+    name = models.CharField(max_length=100)
+
+    def __str__(self):
+        return f"{self.symbol} - {self.name}"
+
+class HistoricalStockIndexData(models.Model):
+    index = models.ForeignKey(StockIndex, on_delete=models.CASCADE)
+    date = models.DateField()
+    open = models.FloatField()
+    high = models.FloatField()
+    low = models.FloatField()
+    close = models.FloatField()
+    volume = models.BigIntegerField(null=True, blank=True)
+
+    class Meta:
+        unique_together = ('index', 'date')
+
+    def __str__(self):
+        return f"{self.index.symbol} - {self.date}"
