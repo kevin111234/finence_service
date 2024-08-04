@@ -83,7 +83,7 @@ def save_stockindex_data():
     indices = [
         {'symbol': 'IXIC', 'name': 'NASDAQ Composite'},
         {'symbol': 'DJI', 'name': 'Dow Jones Industrial Average'},
-        {'symbol': 'GSPC', 'name': 'S&P 500'},
+        {'symbol': '^GSPC', 'name': 'S&P 500'},
         {'symbol': 'RUT', 'name': 'Russell 2000'}
     ]
     
@@ -125,7 +125,6 @@ def save_stockindex_data():
 def save_commodity_data():
     commodities = [
         {'symbol': 'GC', 'name': 'Gold'},
-        {'symbol': 'SI', 'name': 'Silver'}
     ]
     
     for commodity_info in commodities:
