@@ -12,47 +12,36 @@ def start():
     # 각 작업을 스케줄러에 추가하고 로그를 남깁니다.
 
     try:
-        job = scheduler.add_job(crawling_coin, CronTrigger(minute="*/30"), id="coin_crawling", replace_existing=True)
-        print(f"Job {job.id} added to scheduler.")
-        print("coin 크롤링 작업 등록 완료")
-    except Exception as e:
-        print(f"Error adding job coin_crawling: {e}")
-
-    # 환율 데이터 크롤링 (2시간 마다)
-    try:
-        job = scheduler.add_job(crawling_exchange, CronTrigger(hour="*/5"), id="exchange_crawling", replace_existing=True)
+    # 환율 데이터 저장 (오후 2시 마다)
+        job = scheduler.add_job(crawling_exchange, CronTrigger(hour=14, minute=0), id="exchange_crawling", replace_existing=True)
         print(f"Job {job.id} added to scheduler.")
         print("exchange rate 크롤링 작업 등록 완료")
-    except Exception as e:
-        print(f"Error adding job exchange_crawling: {e}")
 
-    # 달러 인덱스 데이터 크롤링 (2시간 마다)
-    try:
+    # 달러 인덱스 데이터 저장 (30분 마다)
         job = scheduler.add_job(crawling_index, CronTrigger(minute="*/30"), id="index_crawling", replace_existing=True)
         print(f"Job {job.id} added to scheduler.")
         print("dollar index 크롤링 작업 등록 완료")
-    except Exception as e:
-        print(f"Error adding job exchange_crawling: {e}")
 
-    # Slack 환율정보 알림 (30분마다)
-    try:
+    # Slack 환율정보 알림 (30분 마다)
         job = scheduler.add_job(slack_exchange, CronTrigger(minute="*/30"), id="slack_notice", replace_existing=True)
         print(f"Job {job.id} added to scheduler.")
         print("slack 알림 작업 등록 완료")
-    except Exception as e:
-        print(f"Error adding job exchange_crawling: {e}")
 
-    try:
-        job = scheduler.add_job(stock_ticker_save, CronTrigger(hour="*/5"), id="stock_ticker_save", replace_existing=True)
+    # 주식 티커 저장 (오후 3시 30분 마다)
+        job = scheduler.add_job(stock_ticker_save, CronTrigger(hour=15, minute=30), id="stock_ticker_save", replace_existing=True)
         print(f"Job {job.id} added to scheduler.")
         print("stock ticker 크롤링 작업 등록 완료")
-    except Exception as e:
-        print(f"Error adding job stock_crawling: {e}")
 
-    try:
-        job = scheduler.add_job(stock_data_save, CronTrigger(hour="*/5"), id="stock_data_save", replace_existing=True)
+    # 주가 데이터 저장 (오후 4시 마다)
+        job = scheduler.add_job(stock_data_save, CronTrigger(hour=16, minute=0), id="stock_data_save", replace_existing=True)
         print(f"Job {job.id} added to scheduler.")
         print("stock data 크롤링 작업 등록 완료")
+
+    # 지표 데이터 저장 (오후 4시 마다)
+    # 원자재 데이터 저장 (오후 4시 마다)
+    # 재무제표 데이터 저장 (오후 5시 마다)
+
+
     except Exception as e:
         print(f"Error adding job stock_crawling: {e}")
 
