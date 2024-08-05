@@ -1,1 +1,0 @@
-default_app_config = 'a_background.apps.a_backgroundConfig'
