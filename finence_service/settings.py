@@ -47,6 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     # custom apps
+    'DataSave',
 
     # user management
     'user',
