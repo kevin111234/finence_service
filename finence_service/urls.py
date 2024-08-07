@@ -22,5 +22,4 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', views.home, name='home'),
     path('user/', include('user.urls')),
-    path('exchange_rate/', include('a_exchange_rate.urls'))
 ]
