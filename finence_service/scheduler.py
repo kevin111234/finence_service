@@ -1,9 +1,10 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 from django_apscheduler.jobstores import DjangoJobStore, register_events
-from a_coin_analyze.tasks import crawling_coin
-from a_exchange_rate.tasks import crawling_exchange, slack_exchange, crawling_index
-from a_stock_analyze.tasks import stock_ticker_save, stock_data_save
+from DataSave.tasks import save_dollar_rate, save_dollar_index, save_stock_ticker, save_stock_data, save_stock_index
+
+def scheduler_test():
+    print("스케줄러 정상 작동중!")
 
 def start():
     scheduler = BackgroundScheduler()
@@ -12,38 +13,40 @@ def start():
     # 각 작업을 스케줄러에 추가하고 로그를 남깁니다.
 
     try:
-    # 환율 데이터 저장 (오후 2시 마다)
-        job = scheduler.add_job(crawling_exchange, CronTrigger(hour=14, minute=0), id="exchange_crawling", replace_existing=True)
+        job_defaults = {
+            'coalesce': False,  # Do not merge missed jobs
+            'max_instances': 3  # Allow up to 3 instances of the job
+        }
+        scheduler.configure(job_defaults=job_defaults)
+
+        job = scheduler.add_job(scheduler_test, CronTrigger(minute="*/5"), id="test", replace_existing=True)
         print(f"Job {job.id} added to scheduler.")
-        print("exchange rate 크롤링 작업 등록 완료")
+        print("테스트 작업 등록 완료")
 
-    # 달러 인덱스 데이터 저장 (30분 마다)
-        job = scheduler.add_job(crawling_index, CronTrigger(minute="*/30"), id="index_crawling", replace_existing=True)
+# exchange_rate
+        job = scheduler.add_job(save_dollar_rate, CronTrigger(hour=14, minute=0), id="exchange_rate", replace_existing=True)
         print(f"Job {job.id} added to scheduler.")
-        print("dollar index 크롤링 작업 등록 완료")
+        print("환율 저장 작업 등록 완료")
 
-    # Slack 환율정보 알림 (30분 마다)
-        job = scheduler.add_job(slack_exchange, CronTrigger(minute="*/30"), id="slack_notice", replace_existing=True)
+        job = scheduler.add_job(save_dollar_index, CronTrigger(hour=14, minute=0), id="dollar_index", replace_existing=True)
         print(f"Job {job.id} added to scheduler.")
-        print("slack 알림 작업 등록 완료")
+        print("달러 인덱스 저장 작업 등록 완료")
 
-    # 주식 티커 저장 (오후 3시 30분 마다)
-        job = scheduler.add_job(stock_ticker_save, CronTrigger(hour=15, minute=30), id="stock_ticker_save", replace_existing=True)
+# stock_data
+        job = scheduler.add_job(save_stock_ticker, CronTrigger(hour=15, minute=0), id="stock_ticker", replace_existing=True)
         print(f"Job {job.id} added to scheduler.")
-        print("stock ticker 크롤링 작업 등록 완료")
+        print("미장 티커 저장 작업 등록 완료")
 
-    # 주가 데이터 저장 (오후 4시 마다)
-        job = scheduler.add_job(stock_data_save, CronTrigger(hour=16, minute=0), id="stock_data_save", replace_existing=True)
+        job = scheduler.add_job(save_stock_data, CronTrigger(hour=16, minute=0), id="stock_data", replace_existing=True)
         print(f"Job {job.id} added to scheduler.")
-        print("stock data 크롤링 작업 등록 완료")
+        print("미장 주가정보 저장 작업 등록 완료")
 
-    # 지표 데이터 저장 (오후 4시 마다)
-    # 원자재 데이터 저장 (오후 4시 마다)
-    # 재무제표 데이터 저장 (오후 5시 마다)
-
+        job = scheduler.add_job(save_stock_index, CronTrigger(hour=16, minute=0), id="stock_index", replace_existing=True)
+        print(f"Job {job.id} added to scheduler.")
+        print("시장지표 저장 작업 등록 완료")
 
     except Exception as e:
-        print(f"Error adding job stock_crawling: {e}")
+        print(f"Error adding job: {e}")
 
 
     # 이벤트 등록

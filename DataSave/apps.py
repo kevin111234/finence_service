@@ -1,7 +1,7 @@
 from django.apps import AppConfig
 
-class a_backgroundConfig(AppConfig):
-    name = 'a_background'
+class DataSaveConfig(AppConfig):
+    name = 'DataSave'
 
     def ready(self):
         pass

@@ -47,11 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     
     # custom apps
-    'a_background',
-    'a_coin_analyze',
-    'a_exchange_rate',
-    'a_stock_analyze',
-    'a_writing_ai',
+    'DataSave',
 
     # user management
     'user',
