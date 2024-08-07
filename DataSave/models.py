@@ -77,11 +77,7 @@ class ExchangeRate(models.Model):
     base_currency = models.CharField(max_length=10)
     target_currency = models.CharField(max_length=10)
     date = models.DateField()
-    open = models.FloatField()
-    high = models.FloatField()
-    low = models.FloatField()
     close = models.FloatField()
-    volume = models.FloatField(null=True, blank=True)
 
     class Meta:
         unique_together = ('base_currency', 'target_currency', 'date')
