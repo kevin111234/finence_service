@@ -1,6 +1,7 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 from django_apscheduler.jobstores import DjangoJobStore, register_events
+from DataSave.tasks import save_dollar_rate, save_dollar_index, save_stock_ticker, save_stock_data, save_stock_index
 
 def scheduler_test():
     print("스케줄러 정상 작동중!")
@@ -12,11 +13,31 @@ def start():
     # 각 작업을 스케줄러에 추가하고 로그를 남깁니다.
 
     try:
-# exchange_rate
-    # 환율 데이터 저장 (오후 2시 마다)
         job = scheduler.add_job(scheduler_test, CronTrigger(minute="*/5"), id="test", replace_existing=True)
         print(f"Job {job.id} added to scheduler.")
         print("테스트 작업 등록 완료")
+
+# exchange_rate
+        job = scheduler.add_job(save_dollar_rate, CronTrigger(minute="*/5"), id="exchange_rate", replace_existing=True)
+        print(f"Job {job.id} added to scheduler.")
+        print("환율 저장 작업 등록 완료")
+
+        job = scheduler.add_job(save_dollar_index, CronTrigger(minute="*/5"), id="dollar_index", replace_existing=True)
+        print(f"Job {job.id} added to scheduler.")
+        print("달러 인덱스 저장 작업 등록 완료")
+
+# stock_data
+        job = scheduler.add_job(save_stock_ticker, CronTrigger(hour=15, minute=0), id="stock_ticker", replace_existing=True)
+        print(f"Job {job.id} added to scheduler.")
+        print("미장 티커 저장 작업 등록 완료")
+
+        job = scheduler.add_job(save_stock_data, CronTrigger(hour=16, minute=0), id="stock_data", replace_existing=True)
+        print(f"Job {job.id} added to scheduler.")
+        print("미장 주가정보 저장 작업 등록 완료")
+
+        job = scheduler.add_job(save_stock_index, CronTrigger(hour=16, minute=0), id="stock_index", replace_existing=True)
+        print(f"Job {job.id} added to scheduler.")
+        print("미장 시장지표 저장 작업 등록 완료")
 
     except Exception as e:
         print(f"Error adding job: {e}")
