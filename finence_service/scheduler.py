@@ -1,7 +1,7 @@
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 from django_apscheduler.jobstores import DjangoJobStore, register_events
-from DataSave.tasks import save_dollar_rate, save_dollar_index, save_stock_ticker, save_stock_data, save_stock_index
+from DataSave.tasks import save_dollar_rate, save_dollar_index, save_stock_ticker, save_stock_data, save_stock_index, save_commodity_data
 
 def scheduler_test():
     print("스케줄러 정상 작동중!")
@@ -44,6 +44,10 @@ def start():
         job = scheduler.add_job(save_stock_index, CronTrigger(hour=16, minute=0), id="stock_index", replace_existing=True)
         print(f"Job {job.id} added to scheduler.")
         print("시장지표 저장 작업 등록 완료")
+
+        job = scheduler.add_job(save_commodity_data, CronTrigger(hour=16, minute=0), id="commodity_data", replace_existing=True)
+        print(f"Job {job.id} added to scheduler.")
+        print("원자재 데이터 저장 작업 등록 완료")
 
     except Exception as e:
         print(f"Error adding job: {e}")

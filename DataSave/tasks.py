@@ -8,7 +8,7 @@ os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'finence_service.settings')
 django.setup()
 
 from DataSave.exchange_data import dollar_rate, dollar_index
-from DataSave.stock_data import ticker_update, stock_data_update, stock_index_update
+from DataSave.stock_data import ticker_update, stock_data_update, stock_index_update, commodity_data_update
 
 def save_dollar_rate():
     dollar_rate()
@@ -25,5 +25,8 @@ def save_stock_data():
 def save_stock_index():
     stock_index_update()
 
+def save_commodity_data():
+    commodity_data_update()
+
 if __name__=="__main__":
-    dollar_rate()
+    save_stock_index()
