@@ -13,6 +13,12 @@ def start():
     # 각 작업을 스케줄러에 추가하고 로그를 남깁니다.
 
     try:
+        job_defaults = {
+            'coalesce': False,  # Do not merge missed jobs
+            'max_instances': 3  # Allow up to 3 instances of the job
+        }
+        scheduler.configure(job_defaults=job_defaults)
+        
         job = scheduler.add_job(scheduler_test, CronTrigger(minute="*/5"), id="test", replace_existing=True)
         print(f"Job {job.id} added to scheduler.")
         print("테스트 작업 등록 완료")
