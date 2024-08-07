@@ -73,3 +73,22 @@ class HistoricalCommodityData(models.Model): # 원자재 데이터 테이블
     
 
 # 환율 정보
+class ExchangeRate(models.Model):
+    base_currency = models.CharField(max_length=10)
+    target_currency = models.CharField(max_length=10)
+    date = models.DateField()
+    open = models.FloatField()
+    high = models.FloatField()
+    low = models.FloatField()
+    close = models.FloatField()
+    volume = models.FloatField(null=True, blank=True)
+
+    class Meta:
+        unique_together = ('base_currency', 'target_currency', 'date')
+
+class DollarIndex(models.Model):
+    date = models.DateField(unique=True)
+    close = models.FloatField()
+
+    class Meta:
+        unique_together = ('date',)

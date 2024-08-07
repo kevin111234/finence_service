@@ -24,3 +24,6 @@ def save_stock_data():
 
 def save_stock_index():
     stock_index_update()
+
+if __name__=="__main__":
+    save_dollar_index()

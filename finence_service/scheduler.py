@@ -18,17 +18,17 @@ def start():
             'max_instances': 3  # Allow up to 3 instances of the job
         }
         scheduler.configure(job_defaults=job_defaults)
-        
+
         job = scheduler.add_job(scheduler_test, CronTrigger(minute="*/5"), id="test", replace_existing=True)
         print(f"Job {job.id} added to scheduler.")
         print("테스트 작업 등록 완료")
 
 # exchange_rate
-        job = scheduler.add_job(save_dollar_rate, CronTrigger(minute="*/5"), id="exchange_rate", replace_existing=True)
+        job = scheduler.add_job(save_dollar_rate, CronTrigger(hour=14, minute=0), id="exchange_rate", replace_existing=True)
         print(f"Job {job.id} added to scheduler.")
         print("환율 저장 작업 등록 완료")
 
-        job = scheduler.add_job(save_dollar_index, CronTrigger(minute="*/5"), id="dollar_index", replace_existing=True)
+        job = scheduler.add_job(save_dollar_index, CronTrigger(hour=14, minute=0), id="dollar_index", replace_existing=True)
         print(f"Job {job.id} added to scheduler.")
         print("달러 인덱스 저장 작업 등록 완료")
 
@@ -43,7 +43,7 @@ def start():
 
         job = scheduler.add_job(save_stock_index, CronTrigger(hour=16, minute=0), id="stock_index", replace_existing=True)
         print(f"Job {job.id} added to scheduler.")
-        print("미장 시장지표 저장 작업 등록 완료")
+        print("시장지표 저장 작업 등록 완료")
 
     except Exception as e:
         print(f"Error adding job: {e}")
