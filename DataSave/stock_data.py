@@ -62,7 +62,7 @@ def stock_data_update():
             
             # 특정 주식의 역사적 데이터 가져오기
             stock_data = fdr.DataReader(stock.symbol, start=start_date.strftime('%Y-%m-%d'), end=datetime.now().strftime('%Y-%m-%d'))
-            
+            stock_data = stock_data.fillna(0, inplace=True)
             for date, data in stock_data.iterrows():
                 HistoricalStockData.objects.update_or_create(
                     stock=stock,
@@ -130,7 +130,7 @@ def stock_index_update():
             
             # 특정 인덱스의 역사적 데이터 가져오기
             index_data = fdr.DataReader(index.symbol, start=start_date.strftime('%Y-%m-%d'), end=datetime.now().strftime('%Y-%m-%d'))
-            
+            index_data = index_data.fillna(0, inplace=True)
             for date, data in index_data.iterrows():
                 HistoricalStockIndexData.objects.update_or_create(
                     index=index,
@@ -177,7 +177,7 @@ def commodity_data_update():
             
             # 특정 원자재의 역사적 데이터 가져오기
             commodity_data = fdr.DataReader(commodity.symbol, data_source='COMMODITY', start=start_date.strftime('%Y-%m-%d'), end=datetime.now().strftime('%Y-%m-%d'))
-            
+            commodity_data = commodity_data.fillna(0, inplace=True)
             for date, data in commodity_data.iterrows():
                 HistoricalCommodityData.objects.update_or_create(
                     commodity=commodity,
